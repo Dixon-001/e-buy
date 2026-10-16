@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="display: flex; flex-direction: column; align-items: center;">
+    <h2 style="font-family: 'Inter', sans-serif;">All Products</h2>
+    <div id="products" style="display:grid; grid-template-columns: repeat(4,1fr); border-radius: 10px;"></div>
+    <button style="background-color: blue; color: white; border: none; padding: 10px 20px; margin: 20px; cursor: pointer; border-radius: 5px;">
+        <a href="index.html" style="text-decoration: none; color: white;">Back to Home</a>
+    </button>
+    <script>
+        const container =document.getElementById("products")
+     async function getData() {
+        try {
+            await fetch("https://dummyjson.com/products?limit=16")
+            .then((response) => response.json())
+            .then(result => {
+                console.log(result)
+                result.products.forEach((products) => {
+                const div = document.createElement("div")
+                div.style.border = "1px solid blue"
+                div.style.borderRadius = "10px"
+                div.style.margin = "20px"
+                div.style.padding = "10px"
+                div.style.fontFamily = "'Inter', sans-serif"
+
+                div.innerHTML = `
+                    <p>${products.category}</p>
+                    <img src="${products.thumbnail}" width="250px" height="250px">
+                    <h3>${products.title}</h3>
+                    <p>${products.price}</p>
+                    
+                
+                `
+                container.appendChild(div)
+                })
+            })
+        } catch(error) {
+            console.error(error.message)
+        }
+        }
+        getData() 
+    </script>
+</body>
+</html>
